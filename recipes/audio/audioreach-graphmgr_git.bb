@@ -7,7 +7,6 @@ SRCREV = "${AUTOREV}"
 PV = "1.0+git${SRCPV}"
 SRC_URI = "git://github.com/Audioreach/audioreach-graphmgr.git;protocol=https;branch=master"
 
-S = "${WORKDIR}/git"
 
 DEPENDS = "glib-2.0 tinyalsa audioreach-graphservices audioreach-conf"
 EXTRA_OECONF += "--with-glib --with-syslog --with-no-ipc"

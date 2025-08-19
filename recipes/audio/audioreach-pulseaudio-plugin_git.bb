@@ -9,7 +9,7 @@ SRCREV = "${AUTOREV}"
 PV = "1.0+git${SRCPV}"
 SRC_URI = "git://github.com/Audioreach/audioreach-pulseaudio-plugin.git;protocol=https;branch=main"
 
-S = "${WORKDIR}/git/modules/pa-pal-plugins"
+S = "${UNPACKDIR}/${PN}-${PV}/modules/pa-pal-plugins"
 
 DEPENDS = "audioreach-graphmgr pulseaudio audioreach-pal audioreach-pal-headers"
 EXTRA_OECONF = " --with-pa_version=17.0 --without-pa-support-card-status"

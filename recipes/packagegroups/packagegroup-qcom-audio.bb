@@ -61,5 +61,5 @@ RDEPENDS:${PN} = ' \
     audioreach-graphmgr \
     audioreach-graphservices \
     audioreach-pal \
-    ${PULSEAUDIO_PKGS}  \
+    ${PULSEAUDIO_PKGS} \
 '
