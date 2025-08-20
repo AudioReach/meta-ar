@@ -13,7 +13,6 @@ SRCREV = "${AUTOREV}"
 PV = "1.0+git${SRCPV}"
 SRC_URI  = "${SRCPROJECT};protocol=https;branch=${SRCBRANCH}" 
 
-
 DEPENDS = "tinyalsa tinycompress audioreach-graphmgr audioreach-graphservices audioreach-conf audioreach-audio-utils audioreach-pal-headers"
 
 EXTRA_OECONF += " --with-glib --with-syslog"
