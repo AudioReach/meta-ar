@@ -8,7 +8,7 @@ SRCREV = "${AUTOREV}"
 PV = "1.0+git${SRCPV}"
 SRC_URI = "git://github.com/Audioreach/audioreach-audio-utils.git;protocol=https;branch=main"
 
-S = "${WORKDIR}/git/audio-route"
+S = "${UNPACKDIR}/${PN}-${PV}/audio-route"
 
 DEPENDS = "glib-2.0 tinyalsa expat"
 

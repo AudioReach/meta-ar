@@ -9,7 +9,6 @@ SRCREV = "e98e500873c9c4fdd752d1c85b6116da426a8a70"
 SRC_URI = "git://github.com/alsa-project/tinycompress.git;protocol=https;branch=master \
             file://0001-tinycompress-update-Makerules.patch"
 
-S = "${WORKDIR}/git"
 PV = "1.2.11"
 
 FILES:${PN}-dev += "${libdir}$/*.so.* {libdir}/*.so"

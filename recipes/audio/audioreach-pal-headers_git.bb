@@ -10,8 +10,7 @@ SRCBRANCH  = "qclinux1.0"
 SRCREV     = "39d15d243c05465a9d4bb1c8688da47017409439"
 
 SRC_URI = "${SRCPROJECT};protocol=https;branch=${SRCBRANCH};"
-
-S = "${WORKDIR}/git/inc"
+S = "${UNPACKDIR}/${PN}-${PV}/inc"
 
 do_compile[noexec] = "1"
 

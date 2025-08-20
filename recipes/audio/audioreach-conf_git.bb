@@ -8,8 +8,6 @@ SRCREV = "${AUTOREV}"
 PV = "1.0+git${SRCPV}"
 SRC_URI = "git://github.com/Audioreach/audioreach-conf.git;protocol=https;branch=master"
 
-S = "${WORKDIR}/git"
-
 EXTRA_OECONF += "--with-qcom"
 
 inherit autotools pkgconfig
