@@ -23,8 +23,8 @@ on:
 jobs:
   build:
     runs-on:
-      group: GHA-Audioreach-SelfHosted-RG
-      labels: [ self-hosted, audior-prd-u2204-x64-large-od-ephem ]
+      group: GHA-Audioreach-Stg-SelfHosted-RG
+      labels: [ self-hosted, audior-stg-u22-sdk-x64-large-od-ephem ]
     strategy:
       fail-fast: false
       matrix:
@@ -36,7 +36,7 @@ jobs:
 
       - name: Sync Codebase
         id: sync
-        uses: Audioreach/meta-ar/.github/actions/sync@main
+        uses: Audioreach/meta-ar/.github/actions/sync@whinlatrer-stg-runner
         with:
           event_name: ${{ github.event_name }}
           pr_ref: ${{ github.event.pull_request.head.ref }}
@@ -44,7 +44,7 @@ jobs:
           base_ref: ${{ github.ref_name }}
 
       - name: Build for ${{ matrix.build_matrix.machine }}
-        uses: Audioreach/meta-ar/.github/actions/build@whinlatrer
+        uses: Audioreach/meta-ar/.github/actions/build@whinlatrer-stg-runner
         with:
           docker_image: ${{ steps.get-docker-image.outputs.image_name }}
           kas_file: ${{ matrix.build_matrix.kas_file }}
