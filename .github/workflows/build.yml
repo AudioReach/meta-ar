@@ -43,30 +43,6 @@ jobs:
           pr_repo: ${{ github.event.pull_request.head.repo.full_name }}
           base_ref: ${{ github.ref_name }}
 
-      - name: Clone meta-qcom repository
-        run: |
-          # Clone the meta-qcom repository
-          cd ${{ github.workspace }}/..
-          # Check if the directory already exists
-          if [ -d "meta-qcom" ]; then
-            echo "Directory meta-qcom already exists. Pulling latest changes."
-            cd meta-qcom
-            git reset --hard origin/master
-            git pull origin master
-          else
-            echo "Directory meta-qcom does not exist. Cloning repository."
-            git clone https://github.com/qualcomm-linux/meta-qcom.git
-          fi
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      # setup local git config as we need to cherrypick patch from meta-qcom
-      - name: Set up local git config
-        run: |
-          # set git config for this project only not global
-          git config --local user.name "GitHub Actions"
-          git config --local user.email "github-actions@github.com"
-
       - name: Build for ${{ matrix.build_matrix.machine }}
         uses: Audioreach/meta-ar/.github/actions/build@main
         with:
@@ -82,6 +58,5 @@ jobs:
         run: |
           # Cleanup the workspace
           rm -rf ${{ github.workspace }}/../build
-          rm -rf ${{ github.workspace }}/../meta-qcom
           rm -rf pub
           echo "Workspace cleaned up."

@@ -53,9 +53,6 @@ runs:
           bash -c "
             set -e
             kas shell meta-ar/ci/${{ inputs.kas_file }} -c '
-              cd ../meta-qcom
-              git fetch https://github.com/qualcomm-linux/meta-qcom.git 78f13cf900b6df8176cbe722576aebbdf9a4d70d && git cherry-pick FETCH_HEAD
-              cd ../build
               umask 022
               # Flat build or generate sdk build
               ${{ inputs.build_command }}
@@ -92,16 +89,10 @@ runs:
         # one for core-kit and one for vision-kit
         if [[ "${KAS_FILE}" == "qcs6490-rb3gen2-core-kit" ]]; then
           # tar file for core-kit
-          cd $BUILD_DIR/tmp/deploy/images/${KAS_FILE}/core-image-base-${KAS_FILE}.rootfs.qcomflash
-          cp dtb-${qcs_number}-addons-${remaining_part}-image.vfat dtb.bin
-          cd ..
           tar -czhf build-core.tar.gz core-image-base-${KAS_FILE}.rootfs.qcomflash/
           cp build-core.tar.gz "$PUB_DIR/core-image-base-${KAS_FILE}.rootfs.qcomflash.tar.gz"
 
           # tar file for vision-kit
-          cd -
-          cp dtb-${qcs_number}-addons-${remaining_part}-vision-mezz-image.vfat dtb.bin
-          cd ..
           tar -czhf build-vision.tar.gz core-image-base-${KAS_FILE}.rootfs.qcomflash/
           cp build-vision.tar.gz "$PUB_DIR/core-image-base-${KAS_FILE}-vision-kit.rootfs.qcomflash.tar.gz"
 
@@ -110,9 +101,6 @@ runs:
           echo "${PUB_DIR}/core-image-base-${KAS_FILE}-vision-kit.rootfs.qcomflash.tar.gz" >> ${{ env.filepath }}
         else
           # tar file for core-kit no vision-kit needed
-          cd $BUILD_DIR/tmp/deploy/images/${KAS_FILE}/core-image-base-${KAS_FILE}.rootfs.qcomflash
-          cp dtb-${qcs_number}-addons-${remaining_part}-image.vfat dtb.bin
-          cd ..
           tar -czhf build.tar.gz core-image-base-${KAS_FILE}.rootfs.qcomflash/
           cp build.tar.gz "$PUB_DIR/core-image-base-${KAS_FILE}.rootfs.qcomflash.tar.gz"
           
