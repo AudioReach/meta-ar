@@ -91,6 +91,7 @@ runs:
           # tar file for core-kit
           cd $BUILD_DIR/tmp/deploy/images/${KAS_FILE}
           cp core-image-base-${KAS_FILE}.rootfs.qcomflash.tar.gz "$PUB_DIR/core-image-base-${KAS_FILE}.rootfs.qcomflash.tar.gz"
+          cd -
 
           # tar file for vision-kit
           cd $BUILD_DIR/tmp/deploy/images/${KAS_FILE}/core-image-base-${KAS_FILE}.rootfs.qcomflash
