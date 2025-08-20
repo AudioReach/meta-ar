@@ -44,7 +44,7 @@ jobs:
           base_ref: ${{ github.ref_name }}
 
       - name: Build for ${{ matrix.build_matrix.machine }}
-        uses: Audioreach/meta-ar/.github/actions/build@main
+        uses: Audioreach/meta-ar/.github/actions/build@whinlatrer
         with:
           docker_image: ${{ steps.get-docker-image.outputs.image_name }}
           kas_file: ${{ matrix.build_matrix.kas_file }}
