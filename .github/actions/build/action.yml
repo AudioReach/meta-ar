@@ -137,7 +137,7 @@ runs:
       with:
         mode: multi-upload
         local_file: ${{ env.filepath }}
-        s3_bucket: qli-prd-audior-gh-artifacts
+        s3_bucket: qli-stg-audior-gh-artifacts
       env:
         MACHINE: ${{ env.MACHINE }}
         BUILD_TYPE: ${{ inputs.build_type }}
