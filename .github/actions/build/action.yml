@@ -133,7 +133,7 @@ runs:
         echo "SDK artifacts created in $PUB_DIR"
 
     - name: Upload artifacts
-      uses: Audioreach/meta-ar/.github/actions/aws-s3-exchanger@main
+      uses: Audioreach/meta-ar/.github/actions/aws-s3-exchanger@stg
       with:
         mode: multi-upload
         local_file: ${{ env.filepath }}
