@@ -55,7 +55,6 @@ PULSEAUDIO_PKGS += " \
 
 RDEPENDS:${PN} = ' \
     tinyalsa \
-    tinycompress \
     audioreach-audio-utils \
     audioreach-conf \
     audioreach-graphmgr \
