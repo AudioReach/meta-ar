@@ -40,14 +40,12 @@ jobs:
       - name: Source Environment
         run: |
           cd poky
-          source oe-init-build-env build
+          source oe-init-build-env
 
       - name: Add Your Layer
         run: |
-          cd poky/build
-          bitbake-layers add-layer ../meta-ar  
+          bitbake-layers add-layer ../meta-ar
 
       - name: Run Layer Check
         run: |
-          cd poky/build
           bitbake-layers check-layer ../meta-ar
