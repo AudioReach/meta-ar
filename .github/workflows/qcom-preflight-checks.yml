@@ -35,21 +35,16 @@ jobs:
         run: |
           git clone https://git.yoctoproject.org/poky
           cd poky
-          git checkout master
+          git checkout master  # Replace with your preferred Yocto version
 
-      - name: Source Environment
+      - name: Source Environment and Run Layer Check
         run: |
           cd poky
-          source oe-init-build-env build
+          source oe-init-build-env build  # Creates and enters ./poky/build/
 
-      - name: Add Your Layer
-        run: |
-          cd poky/build
-          source ../oe-init-build-env
-          bitbake-layers add-layer ../../meta-ar
+          echo "Current directory: $(pwd)"
+          echo "Parent directory: $(dirname $(pwd))"
+          echo "Grandparent directory: $(dirname $(dirname $(pwd)))"
 
-      - name: Run Layer Check
-        run: |
-          cd poky/build
-          source ../oe-init-build-env
+          bitbake-layers add-layer ../../meta-ar  # Adjust path if needed
           bitbake-layers check-layer ../../meta-ar
