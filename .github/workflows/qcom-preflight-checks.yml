@@ -2,9 +2,9 @@ name: Qualcomm Preflight Checks
 
 on:
   pull_request_target:
-    branches: [ main ]
+    branches: [ Yocto-checker ]
   push:
-    branches: [ main ]
+    branches: [ Yocto-checker ]
   workflow_dispatch:
 
 permissions:
@@ -15,3 +15,41 @@ jobs:
   qcom-preflight-checks:
     uses: Audioreach/audioreach-workflows/.github/workflows/qcom-preflight-checks.yml@master
     secrets: inherit
+
+  yocto-layer-check:
+    name: Yocto Layer Sanity Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Layer Repo
+        uses: actions/checkout@v3
+
+      - name: Install Yocto Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gawk wget git-core diffstat unzip texinfo gcc build-essential \
+            chrpath socat cpio python3 python3-pip python3-pexpect xz-utils debianutils iputils-ping \
+            python3-git python3-jinja2 libegl-mesa0 libsdl1.2-dev pylint
+
+      - name: Clone Poky
+        run: |
+          git clone https://git.yoctoproject.org/poky
+          cd poky
+          git checkout master 
+
+      - name: Source Environment and Run Layer Check
+        run: |
+          cd poky
+          source oe-init-build-env build
+
+          echo "Current directory: $(pwd)"
+          echo "Parent directory: $(dirname $(pwd))"
+          echo "Grandparent directory: $(dirname $(dirname $(pwd)))"
+
+          bitbake-layers add-layer ../../../meta-ar
+          bitbake-layers check-layer ../../../meta-ar
+
+
+          echo "Current directory: $(pwd)"
+          echo "Parent directory: $(dirname $(pwd))"
+          echo "Grandparent directory: $(dirname $(dirname $(pwd)))"
