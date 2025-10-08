@@ -33,9 +33,8 @@ jobs:
 
       - name: Clone Poky
         run: |
-          git clone https://git.yoctoproject.org/poky
-          cd poky
-          git checkout master 
+          git clone https://git.yoctoproject.org/poky -b master
+          git clone https://git.openembedded.org/meta-openembedded
 
       - name: Source Environment and Run Layer Check
         run: |
@@ -45,10 +44,12 @@ jobs:
           echo "Current directory: $(pwd)"
           echo "Parent directory: $(dirname $(pwd))"
           echo "Grandparent directory: $(dirname $(dirname $(pwd)))"
-
-          bitbake-layers add-layer ../../../meta-ar
-          bitbake-layers check-layer ../../../meta-ar
-
+          bitbake-layers add-layer ../../meta-openembedded/meta-multimedia
+          bitbake-layers add-layer ../../meta-openembedded/meta-networking
+          bitbake-layers add-layer ../../meta-openembedded/meta-oe
+          bitbake-layers add-layer ../../meta-openembedded/meta-python
+          bitbake-layers add-layer ../../meta-ar
+          bitbake-layers check-layer ../../meta-ar
 
           echo "Current directory: $(pwd)"
           echo "Parent directory: $(dirname $(pwd))"
