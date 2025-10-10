@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://PalDefs.h;beginline=30;endline=31;md5=e733afaf233fbcb
 
 SRCPROJECT = "git://github.com/Audioreach/audioreach-pal.git"
 SRCBRANCH  = "qclinux1.0"
-SRCREV     = "39d15d243c05465a9d4bb1c8688da47017409439"
+SRCREV     = "78a1453984b5478ecef05cfa2648078aa728d6cf"
 
 SRC_URI = "${SRCPROJECT};protocol=https;branch=${SRCBRANCH};"
 S = "${UNPACKDIR}/${PN}-${PV}/inc"

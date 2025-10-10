@@ -3,8 +3,8 @@ SUMMARY = "AudioReach Graph Service"
 LICENSE = "BSD-3-Clause-Clear"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/${LICENSE};md5=7a434440b651f4a472ca93716d01033a"
 
-SRCREV = "${AUTOREV}"
-PV = "1.0+git${SRCPV}"
+SRCREV = "f6e14da21205dfdc06dc2aca6bf64dde9e38f560"
+PV = "0.0+git"
 SRC_URI = "git://github.com/Audioreach/audioreach-graphservices.git;protocol=https;branch=master"
 
 DEPENDS = "glib-2.0 audioreach-kernel-headers"
