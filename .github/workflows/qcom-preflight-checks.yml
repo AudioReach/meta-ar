@@ -33,6 +33,7 @@ jobs:
 
       - name: Clone Poky
         run: |
+          cd ../../
           git clone https://git.yoctoproject.org/poky -b master
           git clone https://git.openembedded.org/meta-openembedded
           echo "cloning openembedded: $(pwd)"
