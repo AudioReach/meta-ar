@@ -42,7 +42,7 @@ jobs:
           echo "CD to poky: $(pwd)"
           source oe-init-build-env build
           echo "after running source: $(pwd)"
-          bitbake-layers add-layer ../../../meta-openembedded/meta-oe
+          bitbake-layers add-layer ../../meta-openembedded/meta-oe
           bitbake-layers add-layer ../../meta-openembedded/meta-python
           bitbake-layers add-layer ../../meta-openembedded/meta-multimedia
           bitbake-layers add-layer ../../meta-openembedded/meta-networking
