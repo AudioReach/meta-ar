@@ -35,22 +35,16 @@ jobs:
         run: |
           git clone https://git.yoctoproject.org/poky -b master
           git clone https://git.openembedded.org/meta-openembedded
-          ls ../../
-
+          echo "cloning openembedded: $(pwd)"
       - name: Source Environment and Run Layer Check
         run: |
           cd poky
+          echo "CD to poky: $(pwd)"
           source oe-init-build-env build
-          ls ../../
-          echo "Current directory: $(pwd)"
-          echo "Parent directory: $(dirname $(pwd))"
+          echo "after running source: $(pwd)"
           bitbake-layers add-layer ../../meta-openembedded/meta-oe
           bitbake-layers add-layer ../../meta-openembedded/meta-python
           bitbake-layers add-layer ../../meta-openembedded/meta-multimedia
           bitbake-layers add-layer ../../meta-openembedded/meta-networking
           bitbake-layers add-layer ../../meta-ar
           bitbake-layers check-layer ../../meta-ar
-
-          echo "Current directory: $(pwd)"
-          echo "Parent directory: $(dirname $(pwd))"
-          echo "Grandparent directory: $(dirname $(dirname $(pwd)))"
