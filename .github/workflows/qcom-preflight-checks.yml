@@ -49,4 +49,4 @@ jobs:
           bitbake-layers add-layer ../../meta-openembedded/meta-multimedia
           bitbake-layers add-layer ../../meta-openembedded/meta-networking
           bitbake-layers add-layer ../../../meta-ar
-          #bitbake-layers show-layers
+          bitbake-layers show-layers
