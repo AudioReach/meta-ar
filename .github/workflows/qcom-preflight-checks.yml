@@ -24,29 +24,28 @@ jobs:
       - name: Checkout Layer Repo
         uses: actions/checkout@v4
         with:
-          # For PRs, use the contributor's fork; for push/manual, fallback to main repo
+          # For PRs, use contributor's fork; fallback to main repo for push/manual
           repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
-          # For PRs, checkout the PR head commit; otherwise use the triggering commit SHA
+          # For PRs, checkout PR head commit; otherwise use triggering commit SHA
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
-          # Do not persist GitHub token in local config (security best practice for PRs)
+          # Do not persist GitHub token (security best practice for PR workflows)
           persist-credentials: false
-          # Fetch full history (depth=0) so Yocto tools can access tags and version info
+          # Fetch full history (Yocto tools may read tags/version info)
           fetch-depth: 0
 
       - name: Install Yocto Dependencies
         run: |
           set -euxo pipefail
-          echo "where am i?: $(pwd)"
           sudo apt-get update
           sudo apt-get install -y \
             gawk wget git diffstat unzip texinfo gcc build-essential \
             chrpath socat cpio python3 python3-pip python3-pexpect xz-utils debianutils iputils-ping \
             python3-git python3-jinja2 libegl-mesa0 libsdl1.2-dev pylint
-        # Note: libegl-mesa0 is correct for Ubuntu 22.04/24.04 runners.
 
       - name: Clone Poky and meta-openembedded
         run: |
           set -euxo pipefail
+          # Clone Yocto Project reference distribution (Poky) and meta-openembedded layers
           git clone https://git.yoctoproject.org/poky -b master
           git clone https://git.openembedded.org/meta-openembedded
           ls -la
@@ -55,14 +54,14 @@ jobs:
         run: |
           set -euxo pipefail
           cd poky
-          # Source env to set BUILDDIR and PATH to bitbake tools
+
+          # --- Avoid 'BBSERVER: unbound variable' under nounset when sourcing env ---
           set +u
-          source oe-init-build-env build
+          source oe-init-build-env build   # sets PATH, BUILDDIR; cds to poky/build
           set -u
-          #source oe-init-build-env build
           echo "After sourcing, CWD=$(pwd)"
 
-          # Detect layer directory
+          # Detect layer directory (repo root or meta-ar subdir)
           LAYER_DIR="${GITHUB_WORKSPACE}"
           if [ ! -f "${LAYER_DIR}/conf/layer.conf" ]; then
             if [ -f "${LAYER_DIR}/meta-ar/conf/layer.conf" ]; then
@@ -77,9 +76,10 @@ jobs:
 
           OE_ROOT="$(realpath ../../meta-openembedded)"
 
-          # Run Yocto layer checker
-          # yocto-check-layer-wrapper runs official QA checks in a clean temp build dir
-          ../scripts/yocto-check-layer-wrapper -o "${PWD}/checklayer.log" \
+          # Run official Yocto layer checks via wrapper:
+          # - Wrapper needs BUILDDIR set (from oe-init-build-env)
+          # - Place `--` after wrapper options so long options are passed through
+          ../scripts/yocto-check-layer-wrapper -o "${PWD}/checklayer.log" -- \
             --dependency "${OE_ROOT}/meta-oe" \
             --dependency "${OE_ROOT}/meta-python" \
             --dependency "${OE_ROOT}/meta-multimedia" \
