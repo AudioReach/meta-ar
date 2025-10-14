@@ -22,31 +22,70 @@ jobs:
 
     steps:
       - name: Checkout Layer Repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+        with:
+          # For PRs, use contributor's fork; fallback to main repo for push/manual
+          repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
+          # For PRs, checkout PR head commit; otherwise use triggering commit SHA
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          # Do not persist GitHub token (security best practice for PR workflows)
+          persist-credentials: false
+          # Fetch full history (Yocto tools need tags and version info)
+          fetch-depth: 0
 
       - name: Install Yocto Dependencies
         run: |
-          ls ../../
-          echo "where am i?: $(pwd)"
+          set -euxo pipefail
+          echo "Installing Yocto build prerequisites"
           sudo apt-get update
-          sudo apt-get install -y gawk wget git-core diffstat unzip texinfo gcc build-essential \
+          sudo apt-get install -y \
+            gawk wget git diffstat unzip texinfo gcc build-essential \
             chrpath socat cpio python3 python3-pip python3-pexpect xz-utils debianutils iputils-ping \
-            python3-git python3-jinja2 libegl-mesa0 libsdl1.2-dev pylint
+            python3-git python3-jinja2 libegl1-mesa libsdl1.2-dev pylint
 
-      - name: Clone Poky
+      - name: Clone Poky and meta-openembedded
         run: |
+          set -euxo pipefail
+          # Clone Yocto Project reference distribution (Poky) and meta-openembedded layers
           git clone https://git.yoctoproject.org/poky -b master
           git clone https://git.openembedded.org/meta-openembedded
-          echo "cloning openembedded: $(pwd)"
+          ls -la
+
       - name: Source Environment and Run Layer Check
         run: |
+          set -euxo pipefail
           cd poky
-          echo "CD to poky: $(pwd)"
+          # Source oe-init-build-env to set up Yocto build environment variables and switch to build directory
           source oe-init-build-env build
-          echo "after running source: $(pwd)"
-          bitbake-layers add-layer ../../meta-openembedded/meta-oe
-          bitbake-layers add-layer ../../meta-openembedded/meta-python
-          bitbake-layers add-layer ../../meta-openembedded/meta-multimedia
-          bitbake-layers add-layer ../../meta-openembedded/meta-networking
-          bitbake-layers add-layer ../../meta-ar
-          bitbake-layers check-layer ../../meta-ar
+          echo "After sourcing, CWD=$(pwd)"
+
+          # Detect layer directory (repo root or meta-ar subdir)
+          LAYER_DIR="${GITHUB_WORKSPACE}"
+          if [ ! -f "${LAYER_DIR}/conf/layer.conf" ]; then
+            if [ -f "${LAYER_DIR}/meta-ar/conf/layer.conf" ]; then
+              LAYER_DIR="${LAYER_DIR}/meta-ar"
+            else
+              echo "Could not find conf/layer.conf under ${GITHUB_WORKSPACE}"
+              find "${GITHUB_WORKSPACE}" -maxdepth 3 -name layer.conf -printf ' - %h\n' || true
+              exit 1
+            fi
+          fi
+          echo "Using LAYER_DIR=${LAYER_DIR}"
+
+          OE_ROOT="$(realpath ../../meta-openembedded)"
+
+          # Use yocto-check-layer-wrapper to run official Yocto layer QA checks in a clean temporary build environment
+          # This validates layer metadata, recipes, and dependencies without polluting the main build directory
+          # Add dependencies explicitly so the checker can resolve classes and bbappends from meta-openembedded
+          ../scripts/yocto-check-layer-wrapper -o "${PWD}/checklayer.log" \
+            --dependency "${OE_ROOT}/meta-oe" \
+            --dependency "${OE_ROOT}/meta-python" \
+            --dependency "${OE_ROOT}/meta-multimedia" \
+            --dependency "${OE_ROOT}/meta-networking" \
+            "${LAYER_DIR}"
+
+      - name: Upload check log
+        uses: actions/upload-artifact@v4
+        with:
+          name: yocto-check-layer-log
+          path: poky/build/checklayer.log
