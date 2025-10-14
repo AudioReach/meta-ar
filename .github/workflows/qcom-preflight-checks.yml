@@ -55,9 +55,10 @@ jobs:
           set -euxo pipefail
           cd poky
 
-          # --- Avoid 'BBSERVER: unbound variable' under nounset when sourcing env ---
+          # Source Yocto env; this sets PATH/BUILDDIR and cds to poky/build
+          # (Temporarily disable nounset to avoid 'BBSERVER: unbound variable')
           set +u
-          source oe-init-build-env build   # sets PATH, BUILDDIR; cds to poky/build
+          source oe-init-build-env build
           set -u
           echo "After sourcing, CWD=$(pwd)"
 
@@ -74,15 +75,18 @@ jobs:
           fi
           echo "Using LAYER_DIR=${LAYER_DIR}"
 
+          # Absolute path to meta-openembedded (sibling to poky)
           OE_ROOT="$(realpath ../../meta-openembedded)"
 
-          # Run official Yocto layer checks directly (avoid wrapper edge cases)
+          # Call the checker directly and STOP options before the layer path.
+          # (yocto-check-layer defines --dependency with nargs='+', so use `--`.)
           ../scripts/yocto-check-layer \
             -o "${PWD}/checklayer.log" \
             --dependency "${OE_ROOT}/meta-oe" \
             --dependency "${OE_ROOT}/meta-python" \
             --dependency "${OE_ROOT}/meta-multimedia" \
             --dependency "${OE_ROOT}/meta-networking" \
+            -- \
             "${LAYER_DIR}"
 
       - name: Upload check log
