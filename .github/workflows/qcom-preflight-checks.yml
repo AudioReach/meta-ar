@@ -76,10 +76,9 @@ jobs:
 
           OE_ROOT="$(realpath ../../meta-openembedded)"
 
-          # Run official Yocto layer checks via wrapper:
-          # - Wrapper needs BUILDDIR set (from oe-init-build-env)
-          # - Place `--` after wrapper options so long options are passed through
-          ../scripts/yocto-check-layer-wrapper -o "${PWD}/checklayer.log" -- \
+          # Run official Yocto layer checks directly (avoid wrapper edge cases)
+          ../scripts/yocto-check-layer \
+            -o "${PWD}/checklayer.log" \
             --dependency "${OE_ROOT}/meta-oe" \
             --dependency "${OE_ROOT}/meta-python" \
             --dependency "${OE_ROOT}/meta-multimedia" \
