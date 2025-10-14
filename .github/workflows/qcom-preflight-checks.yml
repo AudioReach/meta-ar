@@ -56,7 +56,10 @@ jobs:
           set -euxo pipefail
           cd poky
           # Source env to set BUILDDIR and PATH to bitbake tools
+          set +u
           source oe-init-build-env build
+          set -u
+          #source oe-init-build-env build
           echo "After sourcing, CWD=$(pwd)"
 
           # Detect layer directory
