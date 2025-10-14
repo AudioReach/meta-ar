@@ -26,6 +26,8 @@ jobs:
 
       - name: Install Yocto Dependencies
         run: |
+          ls ../../
+          echo "where am i?: $(pwd)"
           sudo apt-get update
           sudo apt-get install -y gawk wget git-core diffstat unzip texinfo gcc build-essential \
             chrpath socat cpio python3 python3-pip python3-pexpect xz-utils debianutils iputils-ping \
