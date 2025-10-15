@@ -49,17 +49,17 @@ jobs:
           source oe-init-build-env build
 
           # Add OpenEmbedded layers
-          bitbake-layers add-layer ../../meta-openembedded/meta-oe
-          bitbake-layers add-layer ../../meta-openembedded/meta-python
-          bitbake-layers add-layer ../../meta-openembedded/meta-multimedia
-          bitbake-layers add-layer ../../meta-openembedded/meta-networking
+          bitbake-layers add-layer ../../../meta-openembedded/meta-oe
+          bitbake-layers add-layer ../../../meta-openembedded/meta-python
+          bitbake-layers add-layer ../../../meta-openembedded/meta-multimedia
+          bitbake-layers add-layer ../../../meta-openembedded/meta-networking
 
           # Add custom meta-ar layer
           if [ ! -d "../../../meta-ar" ]; then
             echo "Error: meta-ar layer not found at expected path."
             exit 1
           fi
-          bitbake-layers add-layer ../../../meta-ar
+          bitbake-layers add-layer ../../../../meta-ar
 
           # Show added layers
           bitbake-layers show-layers
