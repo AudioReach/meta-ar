@@ -26,27 +26,40 @@ jobs:
 
       - name: Install Yocto Dependencies
         run: |
-          ls ../../
-          echo "where am i?: $(pwd)"
+          set -e
           sudo apt-get update
-          sudo apt-get install -y gawk wget git-core diffstat unzip texinfo gcc build-essential \
-            chrpath socat cpio python3 python3-pip python3-pexpect xz-utils debianutils iputils-ping \
-            python3-git python3-jinja2 libegl-mesa0 libsdl1.2-dev pylint
+          sudo apt-get install -y \
+            gawk wget git-core diffstat unzip texinfo gcc build-essential \
+            chrpath socat cpio python3 python3-pip python3-pexpect xz-utils \
+            debianutils iputils-ping python3-git python3-jinja2 libegl-mesa0 \
+            libsdl1.2-dev pylint
 
-      - name: Clone Poky
+      - name: Clone Poky and Meta Layers
         run: |
+          set -e
+          mkdir -p layers
+          cd layers
           git clone https://git.yoctoproject.org/poky -b master
           git clone https://git.openembedded.org/meta-openembedded
-          echo "cloning openembedded: $(pwd)"
+
       - name: Source Environment and Run Layer Check
         run: |
-          cd poky
-          echo "CD to poky: $(pwd)"
+          set -e
+          cd layers/poky
           source oe-init-build-env build
-          echo "after running source: $(pwd)"
+
+          # Add OpenEmbedded layers
           bitbake-layers add-layer ../../meta-openembedded/meta-oe
           bitbake-layers add-layer ../../meta-openembedded/meta-python
           bitbake-layers add-layer ../../meta-openembedded/meta-multimedia
           bitbake-layers add-layer ../../meta-openembedded/meta-networking
+
+          # Add custom meta-ar layer
+          if [ ! -d "../../../meta-ar" ]; then
+            echo "Error: meta-ar layer not found at expected path."
+            exit 1
+          fi
           bitbake-layers add-layer ../../../meta-ar
+
+          # Show added layers
           bitbake-layers show-layers
