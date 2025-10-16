@@ -44,5 +44,6 @@ jobs:
           bitbake-layers add-layer ../../meta-openembedded/meta-multimedia
           bitbake-layers add-layer ../../meta-openembedded/meta-networking
           bitbake-layers add-layer ../../../meta-ar
+          rm -rf ../bitbake/lib/layerindexlib/tests/testdata  # <-- This line fixes the issue
           bitbake-layers show-layers
           yocto-check-layer ../../../meta-ar
