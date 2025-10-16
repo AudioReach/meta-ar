@@ -2,9 +2,9 @@ name: Qualcomm Preflight Checks
 
 on:
   pull_request_target:
-    branches: [ main ]
+    branches: [ Yocto_new_test ]
   push:
-    branches: [ main ]
+    branches: [ Yocto_new_test ]
   workflow_dispatch:
 
 permissions:
@@ -31,7 +31,7 @@ jobs:
             chrpath socat cpio python3 python3-pip python3-pexpect xz-utils debianutils iputils-ping \
             python3-git python3-jinja2 libegl-mesa0 libsdl1.2-dev pylint
 
-      - name: Clone Poky
+      - name: Clone Poky and Meta-OpenEmbedded
         run: |
           git clone https://git.yoctoproject.org/poky -b master
           git clone https://git.openembedded.org/meta-openembedded
@@ -45,3 +45,4 @@ jobs:
           bitbake-layers add-layer ../../meta-openembedded/meta-networking
           bitbake-layers add-layer ../../../meta-ar
           bitbake-layers show-layers
+          yocto-check-layer ../../../meta-ar
