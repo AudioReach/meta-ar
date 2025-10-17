@@ -33,10 +33,13 @@ jobs:
 
       - name: Clone Poky and Meta-OpenEmbedded
         run: |
+          ls ../../
           git clone https://git.yoctoproject.org/poky -b master
           git clone https://git.openembedded.org/meta-openembedded
       - name: Source Environment and Run Layer Check
         run: |
+          ls ../../
+          ls ../../../
           cd poky
           source oe-init-build-env build
           bitbake-layers add-layer ../../meta-openembedded/meta-oe
