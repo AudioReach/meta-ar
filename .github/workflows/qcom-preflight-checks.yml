@@ -42,7 +42,7 @@ jobs:
         run: |
           ls -l ../../
           echo "This is at meta-ar"
-          cd ..
+          #cd ..
           pwd
           cd poky
           source oe-init-build-env build
