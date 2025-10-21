@@ -33,7 +33,7 @@ jobs:
 
       - name: Clone Poky and Meta-OpenEmbedded
         run: |
-          cd ../../
+          #cd ../../
           git clone https://git.yoctoproject.org/poky -b master
           git clone https://git.openembedded.org/meta-openembedded
           pwd 
