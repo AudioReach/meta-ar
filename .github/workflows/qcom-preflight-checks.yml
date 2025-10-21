@@ -56,7 +56,7 @@ jobs:
           bitbake-layers add-layer ../../meta-openembedded/meta-multimedia
           bitbake-layers add-layer ../../meta-openembedded/meta-networking
           ls -l conf
-          cat conf/layer.conf
+          #cat conf/layer.conf
           pwd
           bitbake-layers add-layer ../../meta-ar
           pwd
