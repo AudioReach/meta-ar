@@ -33,7 +33,7 @@ jobs:
 
       - name: Clone Poky and Meta-OpenEmbedded
         run: |
-          #cd ../../
+          cd ../
           git clone https://git.yoctoproject.org/poky -b master
           git clone https://git.openembedded.org/meta-openembedded
           pwd 
@@ -58,7 +58,7 @@ jobs:
           # ls -l conf
           #cat conf/layer.conf
           pwd
-          bitbake-layers add-layer ../../../meta-ar
+          bitbake-layers add-layer ../../meta-ar
           pwd
           # rm -rf ../bitbake/lib/layerindexlib/tests/testdata  # <-- This line fixes the issue
           bitbake-layers show-layers
