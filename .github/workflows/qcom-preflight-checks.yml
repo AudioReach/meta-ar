@@ -55,10 +55,10 @@ jobs:
           bitbake-layers add-layer ../../meta-openembedded/meta-python
           bitbake-layers add-layer ../../meta-openembedded/meta-multimedia
           bitbake-layers add-layer ../../meta-openembedded/meta-networking
-          ls -l conf
+          # ls -l conf
           #cat conf/layer.conf
           pwd
-          bitbake-layers add-layer ../../meta-ar
+          bitbake-layers add-layer ../../../meta-ar
           pwd
           # rm -rf ../bitbake/lib/layerindexlib/tests/testdata  # <-- This line fixes the issue
           bitbake-layers show-layers
