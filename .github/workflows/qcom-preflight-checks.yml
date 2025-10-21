@@ -39,11 +39,14 @@ jobs:
       - name: Source Environment and Run Layer Check
         run: |
           ls -l ../../
-          ls -l ../../../
+          echo "This is at meta-ar"
           pwd
           cd poky
           source oe-init-build-env build
           pwd
+          echo "displaying where we are"
+          pwd
+          ls -l ../../
           bitbake-layers add-layer ../../meta-openembedded/meta-oe
           pwd
           bitbake-layers add-layer ../../meta-openembedded/meta-python
