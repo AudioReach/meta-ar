@@ -53,11 +53,11 @@ jobs:
           bitbake-layers add-layer ../../meta-openembedded/meta-multimedia
           bitbake-layers add-layer ../../meta-openembedded/meta-networking
           pwd
-          bitbake-layers add-layer ../../../meta-ar
+          #bitbake-layers add-layer ../../../meta-ar
           pwd
           # rm -rf ../bitbake/lib/layerindexlib/tests/testdata  # <-- This line fixes the issue
           bitbake-layers show-layers
           pwd
           ls -l
-          # yocto-check-layer ../../meta-ar
+          yocto-check-layer ../../meta-ar
           # bitbake-layers show-layers
