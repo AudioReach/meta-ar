@@ -38,3 +38,54 @@ jobs:
     secrets: inherit
     with:
       build_matrix: ${{ needs.load_parameters.outputs.build_matrix }}
+      
+  yocto-layer-check:
+    name: Yocto Layer Sanity Check
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout Layer Repo
+        uses: actions/checkout@v3
+
+      - name: Install Yocto Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gawk wget git-core diffstat unzip texinfo gcc build-essential \
+            chrpath socat cpio python3 python3-pip python3-pexpect xz-utils debianutils iputils-ping \
+            python3-git python3-jinja2 libegl-mesa0 libsdl1.2-dev pylint
+
+      - name: Clone Poky and Meta-OpenEmbedded
+        run: |
+          cd ../
+          git clone https://git.yoctoproject.org/poky -b master
+          git clone https://git.openembedded.org/meta-openembedded
+          pwd 
+          ls -l
+      - name: Source Environment and Run Layer Check
+        run: |
+          ls -l ../../
+          echo "This is at meta-ar"
+          cd ..
+          pwd
+          cd poky
+          source oe-init-build-env build
+          pwd
+          echo "displaying where we are"
+          pwd
+          ls -l ../../
+          #bitbake-layers add-layer ../../meta-openembedded/meta-oe
+          pwd
+          #bitbake-layers add-layer ../../meta-openembedded/meta-python
+          #bitbake-layers add-layer ../../meta-openembedded/meta-multimedia
+          #bitbake-layers add-layer ../../meta-openembedded/meta-networking
+          # ls -l conf
+          #cat conf/layer.conf
+          pwd
+          #bitbake-layers add-layer ../../meta-ar
+          pwd
+          # rm -rf ../bitbake/lib/layerindexlib/tests/testdata  # <-- This line fixes the issue
+          bitbake-layers show-layers
+          pwd
+          ls -l
+          yocto-check-layer ../../meta-ar ../../meta-openembedded/
+          # bitbake-layers show-layers
