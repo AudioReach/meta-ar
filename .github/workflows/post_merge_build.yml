@@ -87,5 +87,6 @@ jobs:
           bitbake-layers show-layers
           pwd
           ls -l
-          yocto-check-layer ../../meta-ar ../../meta-openembedded/
+          #yocto-check-layer ../../meta-ar ../../meta-openembedded/
+          yocto-check-layer ../../meta-ar --no-auto --dependency ../../meta-openembedded/meta-multimedia/ ../../meta-openembedded/meta-python/ ../../meta-openembedded/meta-oe --no-auto-dependency --machines qemuarm64
           # bitbake-layers show-layers
