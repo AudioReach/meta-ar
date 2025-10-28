@@ -20,4 +20,5 @@ RDEPENDS:${PN} = ' \
     audioreach-pal \
     audioreach-pipewire-plugin \
     audioreach-dlkm \
+    audioreach-kernel-headers \
 '
