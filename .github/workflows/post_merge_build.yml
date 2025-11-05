@@ -61,6 +61,7 @@ jobs:
           git clone https://git.openembedded.org/meta-openembedded
       - name: Source Environment and Run Layer Check
         run: |
+          cd ..
           cd poky
           source oe-init-build-env build
           export MACHINE=qemuarm64
