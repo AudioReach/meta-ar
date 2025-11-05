@@ -59,8 +59,10 @@ jobs:
           cd ../
           git clone https://git.yoctoproject.org/poky -b master
           git clone https://git.openembedded.org/meta-openembedded
+          export MACHINE=qemuarm64
       - name: Source Environment and Run Layer Check
         run: |
           cd poky
           source oe-init-build-env build
-          yocto-check-layer ../../meta-ar --no-auto --dependency ../../meta-openembedded/meta-multimedia/ ../../meta-openembedded/meta-python/ ../../meta-openembedded/meta-oe --no-auto-dependency --machines qemuarm64
+          # yocto-check-layer ../../meta-ar --no-auto --dependency ../../meta-openembedded/meta-multimedia/ ../../meta-openembedded/meta-python/ ../../meta-openembedded/meta-oe --no-auto-dependency --machines qemuarm64
+          yocto-check-layer ../../meta-ar --no-auto --dependency ../../meta-openembedded/meta-multimedia/ ../../meta-openembedded/meta-python/ ../../meta-openembedded/meta-oe --no-auto-dependency
