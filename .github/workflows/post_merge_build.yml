@@ -67,4 +67,3 @@ jobs:
           export MACHINE=qemuarm64
           # yocto-check-layer ../../meta-ar --no-auto --dependency ../../meta-openembedded/meta-multimedia/ ../../meta-openembedded/meta-python/ ../../meta-openembedded/meta-oe --no-auto-dependency --machines qemuarm64
           yocto-check-layer ../../meta-ar --no-auto --dependency ../../meta-openembedded/meta-multimedia/ ../../meta-openembedded/meta-python/ ../../meta-openembedded/meta-oe --no-auto-dependency
-          
