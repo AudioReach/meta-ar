@@ -59,34 +59,8 @@ jobs:
           cd ../
           git clone https://git.yoctoproject.org/poky -b master
           git clone https://git.openembedded.org/meta-openembedded
-          pwd 
-          ls -l
       - name: Source Environment and Run Layer Check
         run: |
-          ls -l ../../
-          echo "This is at meta-ar"
-          cd ..
-          pwd
           cd poky
           source oe-init-build-env build
-          pwd
-          echo "displaying where we are"
-          pwd
-          ls -l ../../
-          #bitbake-layers add-layer ../../meta-openembedded/meta-oe
-          pwd
-          #bitbake-layers add-layer ../../meta-openembedded/meta-python
-          #bitbake-layers add-layer ../../meta-openembedded/meta-multimedia
-          #bitbake-layers add-layer ../../meta-openembedded/meta-networking
-          # ls -l conf
-          #cat conf/layer.conf
-          pwd
-          #bitbake-layers add-layer ../../meta-ar
-          pwd
-          # rm -rf ../bitbake/lib/layerindexlib/tests/testdata  # <-- This line fixes the issue
-          bitbake-layers show-layers
-          pwd
-          ls -l
-          #yocto-check-layer ../../meta-ar ../../meta-openembedded/
           yocto-check-layer ../../meta-ar --no-auto --dependency ../../meta-openembedded/meta-multimedia/ ../../meta-openembedded/meta-python/ ../../meta-openembedded/meta-oe --no-auto-dependency --machines qemuarm64
-          # bitbake-layers show-layers
