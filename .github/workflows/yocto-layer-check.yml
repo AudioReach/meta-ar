@@ -1,6 +1,10 @@
 name: Yocto Layer Sanity Check
 
 on:
+  pull_request:
+    branches: [ Yocto_new_test ]
+  push:
+    branches: [ Yocto_new_test ]
   workflow_dispatch:
 
 jobs:
