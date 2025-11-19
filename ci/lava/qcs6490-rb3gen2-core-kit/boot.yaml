@@ -42,8 +42,10 @@ actions:
     definitions:
     - from: git
       name: "{{DEVICE_TYPE}}-smoke-test"
-      path: automated/linux/smoke/smoke.yaml
-      repository: https://github.com/linaro/test-definitions.git
+      # path: automated/linux/smoke/smoke.yaml
+      path: Runner/plans/meta-ar-ci-premerge.yaml
+      # repository: https://github.com/linaro/test-definitions.git
+      repository: https://github.com/qualcomm-linux/qcom-linux-testkit.git
       parameters:
         SKIP_INSTALL: "True"
         TESTS: "pwd, uname -a, ip a, dmesg"
